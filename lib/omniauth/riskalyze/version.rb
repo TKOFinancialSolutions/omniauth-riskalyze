@@ -1,5 +1,5 @@
 module OmniAuth
   module Riskalyze
-    VERSION = '1.0.1'
+    VERSION = '0.0.1'
   end
 end
