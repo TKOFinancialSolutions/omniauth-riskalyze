@@ -35,6 +35,7 @@ module OmniAuth
       end
 
       def raw_info
+        log :debug, access_token.inspect
         @raw_info ||= access_token.get('/me').parsed
       end
     end
