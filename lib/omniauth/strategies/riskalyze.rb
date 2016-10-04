@@ -3,8 +3,6 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class Riskalyze < OmniAuth::Strategies::OAuth2
-      DEFAULT_SCOPE = 'profile'
-
       option :client_options, {
           site: 'https://api.riskalyze.com',
           authorize_url: 'https://pro.riskalyze.com/oauthconnect',
@@ -34,14 +32,9 @@ module OmniAuth
       end
 
       def request_phase
-        options[:authorize_params] = {
-            client_id: options['client_id'],
-            response_type: 'code',
-        }
-
-        options[:authorize_params][:scope] = options['scope'] unless options['scope'].to_s.nil?
-        options[:authorize_params][:redirect_uri] = options['redirect_uri'] unless options['redirect_uri'].to_s.nil?
-
+        options[:authorize_params] = { client_id: options['client_id'], response_type: 'code' }
+        options[:authorize_params][:redirect_uri] = options['redirect_uri'] unless options['redirect_uri'].to_s.empty?
+        options[:authorize_params][:scope] = options['scope'] unless options['scope'].to_s.empty?
         super
       end
     end

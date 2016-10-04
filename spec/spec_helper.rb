@@ -9,5 +9,5 @@ require 'omniauth'
 require 'omniauth-riskalyze'
 
 RSpec.configure do |config|
-  config.extend OmniAuth::Test::StrategyMacros, :type => :strategy
+  config.extend OmniAuth::Test::StrategyMacros, type: :strategy
 end
