@@ -2,40 +2,40 @@ require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
-    class Riskalyze < OmniAuth::Strategies::OAuth2
+    class SomeSite < OmniAuth::Strategies::OAuth2
+      # Give your strategy a name.
+      option :name, 'riskalyze'
+
+      # This is where you pass the options you would pass when
+      # initializing your consumer from the OAuth gem.
       option :client_options, {
           site: 'https://api.riskalyze.com',
           authorize_url: 'https://pro.riskalyze.com/oauthconnect',
           token_url: 'https://api2.riskalyze.com/ap/v1/oauthpro/token'
       }
 
-      uid { raw_info['uuid'] }
+      # These are called after authentication has succeeded. If
+      # possible, you should try to set the UID without making
+      # additional calls (if the user id is returned with the token
+      # or as a URI parameter). This may not be possible with all
+      # providers.
+      uid { raw_info['id'] }
 
       info do
         {
-            first_name: raw_info['first_name'],
-            last_name: raw_info['last_name'],
-            email: raw_info['email'],
-            picture: raw_info['picture'],
-            promo_code: raw_info['promo_code']
+            name: raw_info['name'],
+            email: raw_info['email']
         }
       end
 
       extra do
         {
-            raw_info: raw_info
+            'raw_info' => raw_info
         }
       end
 
       def raw_info
-        @raw_info ||= access_token.get('/v1/me').parsed || {}
-      end
-
-      def request_phase
-        options[:authorize_params] = { client_id: options['client_id'], response_type: 'code' }
-        options[:authorize_params][:redirect_uri] = options['redirect_uri'] unless options['redirect_uri'].to_s.empty?
-        options[:authorize_params][:scope] = options['scope'] unless options['scope'].to_s.empty?
-        super
+        @raw_info ||= access_token.get('/me').parsed
       end
     end
   end
