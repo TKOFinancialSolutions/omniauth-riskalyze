@@ -2,7 +2,7 @@ require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
-    class SomeSite < OmniAuth::Strategies::OAuth2
+    class Riskalyze < OmniAuth::Strategies::OAuth2
       # Give your strategy a name.
       option :name, 'riskalyze'
 
