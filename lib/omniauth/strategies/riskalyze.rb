@@ -37,11 +37,6 @@ module OmniAuth
       def raw_info
         @raw_info ||= access_token.get('/me').parsed
       end
-
-      def callback_phase
-        log :debug, request.inspect
-        super
-      end
     end
   end
 end
